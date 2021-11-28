@@ -1,0 +1,56 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+}
+
+group 'net.dankito.web'
+version '1.0.0-SNAPSHOT'
+ext.artifactName = "web-client"
+
+
+sourceCompatibility = 1.7
+
+compileKotlin.kotlinOptions.jvmTarget = "1.6"
+
+compileTestKotlin.kotlinOptions.jvmTarget = "1.6"
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    implementation "com.squareup.okhttp3:okhttp:3.12.13" // don't use version 3.13 or above as with 3.13 support for Android 4 has been dropped
+
+    implementation "org.slf4j:slf4j-api:1.7.32"
+
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+
+    testImplementation "org.mockito:mockito-junit-jupiter:3.12.2"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"
+
+    testImplementation "org.assertj:assertj-core:3.20.2"
+
+    testImplementation "org.slf4j:slf4j-simple:1.7.32"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+def commonScriptsFile = new File(new File(project.gradle.gradleUserHomeDir, "scripts"), "commonScripts.gradle")
+if (commonScriptsFile.exists()) {
+    apply from: commonScriptsFile
+}
+
+
+ext.sourceCodeRepositoryBaseUrl = "https://github.com/dankito/WebClient"
+
+ext.useNewSonatypeRepo = false
+ext.packageGroup = "net.dankito"
+
+ext.projectDescription = "A simple wrapper around OkHttp for convenience functionality like connection retries, cookie and respponse handling. Uses OkHttp 3.12 to support Android 4."
